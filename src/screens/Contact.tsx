@@ -1,7 +1,8 @@
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 import { FontAwesome5 } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import { Header } from "../components/Header";
+
 export function Contact() {
     return (
         <View className="relative flex-1 px-4 bg-background-500">

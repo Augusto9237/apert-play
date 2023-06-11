@@ -4,6 +4,7 @@ import { AntDesign } from '@expo/vector-icons';
 import { Home } from '../screens/Home';
 import { GuidePlay } from '../screens/GuidePlay';
 import { Contact } from '../screens/Contact';
+import { DetailsMovie } from '../screens/DetailsMovie';
 
 const Tab = createBottomTabNavigator();
 
@@ -11,7 +12,7 @@ export default function TabRoutes() {
     return (
         <Tab.Navigator screenOptions={{ headerShown: false, tabBarStyle: { backgroundColor: "#000000", borderTopColor: "#000000", height: 60 }}}>
             <Tab.Screen
-                name='home'
+                name='Home'
                 component={Home}
                 options={{
                     tabBarIcon: () => <Feather name='home' size={24} color="#fff" />,
@@ -27,6 +28,11 @@ export default function TabRoutes() {
                     tabBarLabel: 'GuiaPlay',
                     tabBarLabelStyle: { color: "#F41B3B" },
                 }}
+            />
+            <Tab.Screen
+                name='DetailsMovie'
+                component={DetailsMovie}
+                options={{tabBarItemStyle:{display: 'none'}}}
             />
             <Tab.Screen
                 name='contacts'

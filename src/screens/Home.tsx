@@ -5,6 +5,7 @@ import { BannerItem } from "../components/BannerItem";
 import { ChannelsItem } from "../components/ChannelsItem";
 import { CardGame } from "../components/CardGame";
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { TrendingMovies } from "../components/TrendingMovies";
 
 const data = [
     {
@@ -138,25 +139,11 @@ const jogos = [
 export function Home() {
 
     return (
-
         <View className="flex-1 px-4 bg-background-500 ">
             <Header />
-            <ScrollView className="flex-1 w-full space-y-6">
-                <View className="w-full">
-                    <Text className="text-textPrimary-100 text-lg font-semibold mb-2">
-                        Lançamentos
-                    </Text>
-                    <FlatList
-                        data={newMovies}
-                        horizontal
-                        keyExtractor={(item) => item.id}
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={{ paddingRight: 0, gap: 12 }}
-                        renderItem={({ item: movies }) => (
-                            <BannerItem title={movies.titulo} id={movies.id} image={movies.image} />
-                        )}
-                    />
-                </View>
+            <ScrollView className="flex-1 w-full space-y-6" showsVerticalScrollIndicator={false}>
+
+                <TrendingMovies />
 
                 <View className="w-full">
                     <Text className="text-textPrimary-100 text-lg font-semibold mb-2">

@@ -12,8 +12,8 @@ interface CardTrending {
 
 export function CardGame({ id, image1, image2, hours, homeTeam, visitingTeam }: CardTrending) {
     return (
-        <View className='bg-background-100 h-[110px] min-w-[260px] items-center rounded-md'>
-            <Text className='text-textPrimary-100'>Brasileirão serie A</Text>
+        <View className='bg-background-100 h-[116px] min-w-[260px] items-center rounded-md p-2'>
+            <Text className='text-textPrimary-100 text-xs'>Brasileirão serie A</Text>
             <View className='flex-row justify-between p-4 space-x-2'>
                 <View className='flex-row space-x-1 items-center'>
                     <Text className='text-textPrimary-100 text-base font-medium'>
@@ -31,8 +31,8 @@ export function CardGame({ id, image1, image2, hours, homeTeam, visitingTeam }: 
                     </Text>
                 </View>
             </View>
-            <View className='bg-textSecondary-100 px-2'>
-                <Text className='text-textPrimary-100'>
+            <View className='bg-textSecondary-100 px-2 rounded-sm'>
+                <Text className='text-textPrimary-100 text-xs'>
                     {hours}
                 </Text>
             </View>

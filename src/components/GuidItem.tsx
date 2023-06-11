@@ -3,16 +3,29 @@ import { View, Text, Image } from 'react-native'
 interface CardTrending {
     id: string;
     title: string;
-    image: any;
+    time: string;
+    description?: string;
+    aoVivo?: boolean;
+    image:{ uri: string }
 }
 
-export function GuideItem({ id, image, title }: CardTrending) {
+export function GuideItem({ id, title, aoVivo, time, description, image }: CardTrending) {
     return (
-        <View className='w-full h-[100] flex-row flex-1 rounded-md overflow-hidden bg-background-100' >
-            <Image source={image} className='h-full w-20' />
-            <View>
-                <Text className='text-textPrimary-100 ml-3 mt-2 text-base font-semibold'>{title}</Text>
-                <Text className='text-textPrimary-100 ml-3 mt-2 text-base'>15h às 18h</Text>
+        <View className='w-full h-[96] flex-row flex-1 mb-2  rounded-md overflow-hidden bg-background-100 ' >
+            <Image source={image} className='h-full w-[90px]'/>
+            <View className='p-2'>
+                <View className='flex-row items-center space-x-2'>
+                    <Text className='text-textPrimary-100 text-xs'>{time}</Text>
+                    {aoVivo && (
+                        <View className='bg-textSecondary-100 px-2 rounded-sm'>
+                            <Text className='text-textPrimary-100 text-xs'>
+                                Ao vivo
+                            </Text>
+                        </View>
+                    )}
+                </View>
+                <Text className='text-textPrimary-100 mt-1 text-base font-semibold'>{title.length > 26 ? title.slice(0, 26) + '...' : title}</Text>
+                <Text className='text-textPrimary-100 text-xs'>{description}</Text>
             </View>
         </View>
     )

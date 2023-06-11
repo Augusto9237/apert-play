@@ -1,4 +1,5 @@
-import { View, Text, Image, TouchableOpacity, ImageBackground } from 'react-native'
+import { useNavigation } from '@react-navigation/native';
+import { View, Text, Image, Dimensions, TouchableWithoutFeedback } from 'react-native'
 
 interface CardTrending {
     id: string;
@@ -6,16 +7,24 @@ interface CardTrending {
     image: any
 }
 
+const { width, height } = Dimensions.get('window');
+
 export function BannerItem({ id, title, image }: CardTrending) {
+    const navigation = useNavigation();
+
+    function handleClick(idMovie: string){
+        navigation.navigate('DetailsMovie', idMovie);
+    }
     return (
-        <TouchableOpacity className='h-[190px] w-[322px] overflow-hidden rounded-sm' >
-
-            <ImageBackground source={image} className='h-full w-full justify-end'>
-                <Text className='text-textPrimary-100 p-2'>
-                    {title}
-                </Text>
-            </ImageBackground>
-
-        </TouchableOpacity>
+        <TouchableWithoutFeedback onPress={() => handleClick(id)}>
+            <Image
+                source={image}
+                style={{
+                    width: width * 0.6,
+                    height: height * 0.4
+                }}
+                className='rounded-3xl'
+            />
+        </TouchableWithoutFeedback>
     )
 }
