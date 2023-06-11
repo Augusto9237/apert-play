@@ -8,13 +8,14 @@ module.exports = {
     extend: {
       colors: {
         background: {
-          500: "#000000",
+          100: "#15161C",
+          500: "#0A070B",
         },
         textPrimary: {
           100: "#FFFFFF",
         },
         textSecondary: {
-          100: "#F00000",
+          100: "#F41B3B",
         },
         border:{
           100: '#EDEDED'
