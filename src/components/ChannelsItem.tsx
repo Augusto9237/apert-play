@@ -7,7 +7,7 @@ interface CardTrending {
     title: string;
     image: any;
     schedule?: ProgramSchedule[];
-    setSchedule: React.Dispatch<React.SetStateAction<ProgramSchedule[]>>
+    setSchedule?: React.Dispatch<React.SetStateAction<ProgramSchedule[]>>
 }
 
 export function ChannelsItem({ id, image, title, schedule, setSchedule }: CardTrending) {

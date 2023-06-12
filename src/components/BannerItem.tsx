@@ -1,24 +1,21 @@
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, Image, Dimensions, TouchableWithoutFeedback } from 'react-native'
+import { Image, Dimensions, TouchableWithoutFeedback } from 'react-native'
+import { image500 } from '../api/moviedb';
+import { Movie } from '../@types/MoviesType';
 
-interface CardTrending {
-    id: string;
-    title: string;
-    image: any
-}
+  interface MovieProps{
+    movie: Movie;
+  }
 
 const { width, height } = Dimensions.get('window');
 
-export function BannerItem({ id, title, image }: CardTrending) {
+export function BannerItem( {movie} : MovieProps) {
     const navigation = useNavigation();
 
-    function handleClick(idMovie: string){
-        navigation.navigate('DetailsMovie', idMovie);
-    }
     return (
-        <TouchableWithoutFeedback onPress={() => handleClick(id)}>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate('DetailsMovie', movie.id)}>
             <Image
-                source={image}
+                source={{uri: image500(movie.poster_path)}}
                 style={{
                     width: width * 0.6,
                     height: height * 0.4

@@ -11,7 +11,7 @@ interface CardTrending {
 
 export function GuideItem({ id, title, aoVivo, time, description, image }: CardTrending) {
     return (
-        <View className='w-full h-[96] flex-row flex-1 mb-2  rounded-md overflow-hidden bg-background-100 ' >
+        <View className='w-full h-[96] flex-row flex-1 mb-3  rounded-md overflow-hidden bg-background-100 ' >
             <Image source={image} className='h-full w-[90px]'/>
             <View className='p-2'>
                 <View className='flex-row items-center space-x-2'>

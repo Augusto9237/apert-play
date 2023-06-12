@@ -5,6 +5,7 @@ import { Home } from '../screens/Home';
 import { GuidePlay } from '../screens/GuidePlay';
 import { Contact } from '../screens/Contact';
 import { DetailsMovie } from '../screens/DetailsMovie';
+import { DetailsSeries } from '../screens/DetailsSerie';
 
 const Tab = createBottomTabNavigator();
 
@@ -32,6 +33,11 @@ export default function TabRoutes() {
             <Tab.Screen
                 name='DetailsMovie'
                 component={DetailsMovie}
+                options={{tabBarItemStyle:{display: 'none'}}}
+            />
+             <Tab.Screen
+                name='DetailsSeries'
+                component={DetailsSeries}
                 options={{tabBarItemStyle:{display: 'none'}}}
             />
             <Tab.Screen

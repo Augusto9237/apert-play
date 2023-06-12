@@ -6,6 +6,10 @@ import { ChannelsItem } from "../components/ChannelsItem";
 import { CardGame } from "../components/CardGame";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TrendingMovies } from "../components/TrendingMovies";
+import { useEffect, useState } from "react";
+import { fetchPopularMovies, fetchPopularSeriesTv, fetchTrendingMovies } from "../api/moviedb";
+import { PopularMovies, Result } from "../@types/MoviesType";
+import { SeriesResponse } from "../@types/SeriesTvTypes";
 
 const data = [
     {
@@ -26,43 +30,6 @@ const data = [
 ];
 
 
-const newMovies = [
-    {
-        id: '1',
-        titulo: 'Homem-Aranha: Através do Aranhaverso',
-        direcao: 'Joaquim Dos Santos, Kemp Powers, Justin Thompson',
-        elenco: ['Shameik Moore', 'Hailee Steinfeld', 'Oscar Isaac'],
-        image: { uri: 'https://br.web.img2.acsta.net/c_310_420/pictures/23/05/17/22/43/4869322.jpg' },
-    },
-    {
-        id: '2',
-        titulo: 'Boogeyman: Seu Medo é Real',
-        direcao: 'Rob Savage',
-        elenco: ['Chris Messina', 'Sophie Thatcher', 'Vivien Lyra Blair'],
-        image: { uri: 'https://br.web.img2.acsta.net/c_310_420/pictures/23/05/04/20/29/2513856.jpg' },
-    },
-    {
-        id: '3',
-        titulo: 'Urubus',
-        direcao: 'Cláudio Borrelli',
-        elenco: ['Gustavo Garcez', 'Bella Camero', 'Julio Martins'],
-        image: { uri: 'https://br.web.img2.acsta.net/c_310_420/pictures/23/05/16/08/06/1535849.jpg' },
-    },
-    {
-        id: '4',
-        titulo: 'EO',
-        direcao: 'Jerzy Skolimowski',
-        elenco: ['Sandra Drzymalska', 'Tomasz Organek', 'Mateusz Kosciukiewicz'],
-        image: { uri: 'https://br.web.img3.acsta.net/c_310_420/pictures/23/06/01/15/50/3565779.jpg' },
-    },
-    {
-        id: '5',
-        titulo: 'O Último Ônibus',
-        direcao: 'Gillies MacKinnon',
-        elenco: ['Timothy Spall', 'Phyllis Logan', 'Saskia Ashdown'],
-        image: { uri: 'https://br.web.img3.acsta.net/c_310_420/pictures/23/05/18/21/14/1874353.jpg' },
-    }
-];
 
 const dataChannels = [
     {
@@ -137,13 +104,44 @@ const jogos = [
 
 
 export function Home() {
+    const [trending, setTrending] = useState<Result>([]);
+    const [popularMovies, setPopularMovies] = useState<PopularMovies>([]);
+    const [popularSeries, setPopularSeries] = useState<SeriesResponse>([]);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        getTrendingMovies();
+        getPopularMovies();
+        getPopularSeries();
+    }, [])
+
+    async function getTrendingMovies() {
+        const data = await fetchTrendingMovies();
+        if (data && data.results) {
+            setTrending(data.results);
+        }
+    }
+
+    async function getPopularMovies() {
+        const data = await fetchPopularMovies();
+        if (data && data.results) {
+            setPopularMovies(data.results);
+        }
+    }
+
+    async function getPopularSeries() {
+        const data = await fetchPopularSeriesTv();
+        if (data && data.results) {
+            setPopularSeries(data.results);
+        }
+    }
 
     return (
         <View className="flex-1 px-4 bg-background-500 ">
             <Header />
             <ScrollView className="flex-1 w-full space-y-6" showsVerticalScrollIndicator={false}>
 
-                <TrendingMovies />
+                <TrendingMovies trending={trending} />
 
                 <View className="w-full">
                     <Text className="text-textPrimary-100 text-lg font-semibold mb-2">
@@ -168,16 +166,32 @@ export function Home() {
 
                 <View>
                     <Text className="text-textPrimary-100 text-lg font-semibold mb-2">
-                        Mais Populares
+                        Filmes mais populares
                     </Text>
                     <FlatList
-                        data={data}
+                        data={popularMovies}
                         horizontal
-                        keyExtractor={(item) => item.id}
+                        keyExtractor={(item) => String(item.id)}
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={{ paddingRight: 12, gap: 12 }}
-                        renderItem={({ item: trending }) => (
-                            <CardTrendings id={trending.id} title={trending.title} image={trending.image} />
+                        renderItem={({ item: popular }) => (
+                            <CardTrendings movie={popular} />
+                        )}
+                    />
+                </View>
+
+                <View>
+                    <Text className="text-textPrimary-100 text-lg font-semibold mb-2">
+                        Séries mais populares
+                    </Text>
+                    <FlatList
+                        data={popularSeries}
+                        horizontal
+                        keyExtractor={(item) => String(item.id)}
+                        showsHorizontalScrollIndicator={false}
+                        contentContainerStyle={{ paddingRight: 12, gap: 12 }}
+                        renderItem={({ item: popular }) => (
+                            <CardTrendings series={popular} />
                         )}
                     />
                 </View>
