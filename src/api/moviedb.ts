@@ -8,6 +8,7 @@ const apiBaseUrl = "https://api.themoviedb.org/3";
 const trendingMoviesEndpoint = `${apiBaseUrl}/trending/movie/day?api_key=${apiKey}`;
 const popularMoviesEndpoint = `${apiBaseUrl}/movie/popular?api_key=${apiKey}`;
 const popularSeriesTvEndpoint = `${apiBaseUrl}/tv/popular?api_key=${apiKey}`;
+const providersTvEndpoint = `${apiBaseUrl}/watch/providers/tv?api_key=${apiKey}`;
 
 //dynamic endpoints
 const detailMovie = (id) => `${apiBaseUrl}/movie/${id}?api_key=${apiKey}`;
@@ -24,7 +25,7 @@ async function apiCall(endpoint: string, params?: string) {
   const options = {
     method: "GET",
     url: endpoint,
-    params: params ? params : { language: "pt-Br" },
+    params: params ? params : { language: "pt-br", watch_region: "br" },
   };
 
   try {
@@ -54,4 +55,8 @@ export const fetchMovieDetails = (id) => {
 
 export const fetchSerieDetails = (id) => {
   return apiCall(detailSerie(id));
+};
+
+export const fetchProvidersTv = () => {
+  return apiCall(providersTvEndpoint);
 };

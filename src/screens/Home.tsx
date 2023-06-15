@@ -7,27 +7,11 @@ import { CardGame } from "../components/CardGame";
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { TrendingMovies } from "../components/TrendingMovies";
 import { useEffect, useState } from "react";
-import { fetchPopularMovies, fetchPopularSeriesTv, fetchTrendingMovies } from "../api/moviedb";
+import { fetchPopularMovies, fetchPopularSeriesTv, fetchProvidersTv, fetchTrendingMovies } from "../api/moviedb";
 import { PopularMovies, Result } from "../@types/MoviesType";
 import { SeriesResponse } from "../@types/SeriesTvTypes";
+import { ResultItem } from "../@types/ChanneslType";
 
-const data = [
-    {
-        id: '1',
-        title: 'Item 1',
-        image: require('../assets/movies/English.png'),
-    },
-    {
-        id: '2',
-        title: 'Item 2',
-        image: require('../assets/movies/dark-knight.png'),
-    },
-    {
-        id: '3',
-        title: 'Item 3',
-        image: require('../assets/movies/Hindi.png'),
-    },
-];
 
 
 
@@ -107,12 +91,14 @@ export function Home() {
     const [trending, setTrending] = useState<Result>([]);
     const [popularMovies, setPopularMovies] = useState<PopularMovies>([]);
     const [popularSeries, setPopularSeries] = useState<SeriesResponse>([]);
+    const [providerTv, setProviderTv] = useState<ResultItem[]>([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         getTrendingMovies();
         getPopularMovies();
         getPopularSeries();
+        getProvidersTv();
     }, [])
 
     async function getTrendingMovies() {
@@ -133,6 +119,13 @@ export function Home() {
         const data = await fetchPopularSeriesTv();
         if (data && data.results) {
             setPopularSeries(data.results);
+        }
+    }
+
+    async function getProvidersTv() {
+        const data = await fetchProvidersTv();
+        if (data && data.results) {
+            setProviderTv(data.results);
         }
     }
 
@@ -199,17 +192,16 @@ export function Home() {
                     <Text className="text-textPrimary-100 text-lg font-semibold mb-2">
                         Canais e Streamings
                     </Text>
-                    <FlatList
-                        data={dataChannels}
+                     <FlatList
+                        data={providerTv}
                         horizontal
-                        keyExtractor={(item) => item.id}
+                        keyExtractor={(item) => String(item.provider_id)}
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={{ gap: 12 }}
                         renderItem={({ item: channel }) => (
-                            <ChannelsItem id={channel.id} title={channel.title} image={channel.image} />
+                            <ChannelsItem id={channel.provider_id}  image={channel.logo_path} />
                         )}
-                    />
-
+                    /> 
                 </View>
             </ScrollView>
         </View>

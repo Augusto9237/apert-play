@@ -2,7 +2,9 @@ import { FlatList, Image, Text, View, ScrollView } from "react-native";
 import { GuideItem } from "../components/GuidItem";
 import { ChannelsItem } from "../components/ChannelsItem";
 import { Header } from "../components/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { fetchProvidersTv } from "../api/moviedb";
+import { ResultChannels, ResultItem } from "../@types/ChanneslType";
 
 
 export interface ProgramSchedule {
@@ -176,6 +178,18 @@ const dataChannels = [
 
 export function GuidePlay() {
     const [schedule, setSchedule] = useState<ProgramSchedule[]>([]);
+    const [providerTv, setProviderTv] = useState<ResultItem[]>([]);
+
+    useEffect(() => {
+        getProvidersTv()
+    }, [])
+
+    async function getProvidersTv() {
+        const data = await fetchProvidersTv();
+        if (data && data.results) {
+            setProviderTv(data.results);
+        }
+    }
 
     return (
         <View className="flex-1 px-4 bg-background-500">
@@ -186,18 +200,16 @@ export function GuidePlay() {
                         Selecione um canal ou streaming
                     </Text>
                     <FlatList
-                        data={dataChannels}
+                        data={providerTv}
                         horizontal
-                        keyExtractor={(item) => item.id}
+                        keyExtractor={(item) => String(item.provider_id)}
                         showsHorizontalScrollIndicator={false}
                         contentContainerStyle={{ gap: 12 }}
                         renderItem={({ item: channel }) => (
                             <ChannelsItem
                                 setSchedule={setSchedule}
-                                id={channel.id}
-                                title={channel.title}
-                                image={channel.image}
-                                schedule={channel.programSchedule}
+                                id={channel.provider_id}
+                                image={channel.logo_path}
                             />
                         )}
                     />
